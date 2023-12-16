@@ -1,9 +1,32 @@
-export default function Speak(){
-    return(
-        <>
-        <button>speak</button>
-        <button>stop</button>
-        <button>reset</button>
-        </>
-    )
-}
+"use client"
+import 'regenerator-runtime/runtime';
+import React from 'react';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+
+const Dictaphone = () => {
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition
+  } = useSpeechRecognition();
+
+//   if (!browserSupportsSpeechRecognition) {
+//     return (
+//     <p>Browser doesn't support speech recognition.</p>
+
+//     )
+//   }
+
+  return (
+    
+    <div>
+      <div>Microphone: {listening ? 'on' : 'off'}</div>
+      <button onClick={SpeechRecognition.startListening}>Start</button>
+      <button onClick={SpeechRecognition.stopListening}>Stop</button>
+      <button onClick={resetTranscript}>Reset</button>
+      <div>{transcript}</div>
+    </div>
+  );
+};
+export default Dictaphone;
