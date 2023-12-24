@@ -20,10 +20,16 @@ export default function Speechtext(){
         await aiUtil.aiTranslate(htmlText).then(async (res)=>{
            console.log(res)
            //JSON.stringify(state.aiResponse.parts)
-        let modifiedRes=res.parts[0].text;
+       // let modifiedRes=res.parts[0].text;
         //console.log(modifiedRes)
-        let newRes=await modifiedRes.replace('/\n', "&nbsp; \n");
+       // let newRes=await modifiedRes.replace('/\n', "&nbsp; \n");
         //console.log(newRes);
+
+        let aires={
+            apiRes:"As an AI language model, I don't have personal feelings or emotions, so I don't experience days or have a concept of well-being. I'm a virtual assistant designed to provide information and assist users with their queries and requests.\n\nMay I help you with something today?"
+            }
+            let modRes= aires.apiRes;
+            let newRes=modRes.replace('/\n', "&nbsp; \n");
             setState((preState)=>{
                 return{
                     ...preState , aiResponse:newRes , dataLoading:false
