@@ -39,9 +39,10 @@ export default function Speechtext(){
     }
     return(
         <>
-        <button onClick={getText}>Translate</button>
+        <div className="pt-4">
+        <button className='bg-black text-white font-semibold py-2 px-4 rounded-full' onClick={getText}>Ask AI</button>
         {state.dataLoading?<div>Loading....</div>:<div id='ai-response'><ReactMarkdown>{state.aiResponse}</ReactMarkdown></div>}
-        
+        </div>
         </>
     );
 }

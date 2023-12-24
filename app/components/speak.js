@@ -44,10 +44,10 @@ function stopMic(){
     <div className='pl-4'>
       <div>Microphone: {listening ? 'on' : 'off'}</div>
       <div className='flex space-x-4 '>
-        <div className='bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full' 
-        onClick={startMic}>Start</div>
-        <div className='bg-red-700 hover:bg-red-900 text-white font-semibold py-2 px-4 rounded-full' onClick={stopMic}>Stop</div>
-        <div className='bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-full' onClick={reSet}>Reset</div>
+        <div className='bg-blue-900 text-white font-semibold py-2 px-4 rounded-full' 
+        onClick={startMic}>Speak</div>
+        <div className='bg-red-900 text-white font-semibold py-2 px-4 rounded-full' onClick={stopMic}>Stop</div>
+        <div className='bg-green-900 text-white font-semibold py-2 px-4 rounded-full' onClick={reSet}>Reset</div>
       </div>
       
       <div id='text-speech'>{transcript}</div>
