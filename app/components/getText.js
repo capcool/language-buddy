@@ -17,7 +17,7 @@ export default function Speechtext(){
             
         });
         let htmlText=document.getElementById("text-speech").innerHTML;
-        aiUtil.aiTranslate(htmlText).then((res)=>{
+        await aiUtil.aiTranslate(htmlText).then((res)=>{
            console.log(res)
            //JSON.stringify(state.aiResponse.parts)
         let modifiedRes=res.parts[0].text;
