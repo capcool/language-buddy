@@ -51,7 +51,7 @@ aiTranslate:async(translateText)=>{
           const axios = require('axios');
           axios.request(config)
           .then((response) => {
-            console.log(JSON.stringify(response.data.candidates[0].content));
+           // console.log(JSON.stringify(response.data.candidates[0].content));
             resolve(response.data.candidates[0].content);
           })
           .catch((error) => {
