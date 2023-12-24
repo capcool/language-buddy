@@ -3,7 +3,6 @@ import React, {useContext} from "react";
 import aiUtil from "./ai/googleGemini";
 import { Context } from "../stateManagement/Store";
 import ReactMarkdown from 'react-markdown';
-import ReactDOM from 'react-dom'
 
 export default function Speechtext(){
     const [state , setState]= useContext(Context);

@@ -13,8 +13,24 @@ const Dictaphone = () => {
   } = useSpeechRecognition();
 function reSet(){
     resetTranscript();
-    document.getElementById("ai-response").innerHTML=""
+    //document.getElementById("ai-response").innerHTML=""
+    eraseAiResponse();
   
+}
+function eraseAiResponse(){
+  setState((preState)=>{
+    return{
+      ...preState , aiResponse:""
+  }
+  });
+}
+function startMic(){
+  eraseAiResponse();
+  SpeechRecognition.startListening();
+}
+function stopMic(){
+  eraseAiResponse();
+  SpeechRecognition.stopListening();
 }
 //   if (!browserSupportsSpeechRecognition) {
 //     return (
@@ -25,11 +41,15 @@ function reSet(){
 
   return (
     
-    <div>
+    <div className='pl-4'>
       <div>Microphone: {listening ? 'on' : 'off'}</div>
-      <button onClick={SpeechRecognition.startListening}>Start</button>
-      <button onClick={SpeechRecognition.stopListening}>Stop</button>
-      <button onClick={reSet}>Reset</button>
+      <div className='flex space-x-4 '>
+        <div className='bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full' 
+        onClick={startMic}>Start</div>
+        <div className='bg-red-700 hover:bg-red-900 text-white font-semibold py-2 px-4 rounded-full' onClick={stopMic}>Stop</div>
+        <div className='bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-full' onClick={reSet}>Reset</div>
+      </div>
+      
       <div id='text-speech'>{transcript}</div>
       <div id='text-translate'></div>
     </div>
