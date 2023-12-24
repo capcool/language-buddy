@@ -21,9 +21,9 @@ export default function Speechtext(){
            console.log(res)
            //JSON.stringify(state.aiResponse.parts)
         let modifiedRes=res.parts[0].text;
-        console.log(modifiedRes)
+        //console.log(modifiedRes)
         let newRes=await modifiedRes.replace('/\n', "&nbsp; \n");
-        console.log(newRes);
+        //console.log(newRes);
             setState((preState)=>{
                 return{
                     ...preState , aiResponse:newRes , dataLoading:false
@@ -35,7 +35,7 @@ export default function Speechtext(){
     return(
         <>
         <button onClick={getText}>Translate</button>
-        {state.dataLoading?<div>Loading....</div>:<div id='ai-response'><ReactMarkdown children={state.aiResponse.parts[0].text}/></div>}
+        {state.dataLoading?<div>Loading....</div>:<div id='ai-response'><ReactMarkdown children={state.aiResponse}/></div>}
         
         </>
     );
