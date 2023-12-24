@@ -17,12 +17,12 @@ export default function Speechtext(){
             
         });
         let htmlText=document.getElementById("text-speech").innerHTML;
-        await aiUtil.aiTranslate(htmlText).then((res)=>{
+        await aiUtil.aiTranslate(htmlText).then(async (res)=>{
            console.log(res)
            //JSON.stringify(state.aiResponse.parts)
         let modifiedRes=res.parts[0].text;
         console.log(modifiedRes)
-        let newRes=modifiedRes.replace('/\n', "&nbsp; \n");
+        let newRes=await modifiedRes.replace('/\n', "&nbsp; \n");
         console.log(newRes);
             setState((preState)=>{
                 return{
@@ -35,7 +35,7 @@ export default function Speechtext(){
     return(
         <>
         <button onClick={getText}>Translate</button>
-        {state.dataLoading?<div>Loading....</div>:<div id='ai-response'><ReactMarkdown children={state.aiResponse}/></div>}
+        {state.dataLoading?<div>Loading....</div>:<div id='ai-response'><ReactMarkdown children={state.aiResponse.parts[0].text}/></div>}
         
         </>
     );
