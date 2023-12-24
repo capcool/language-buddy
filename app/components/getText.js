@@ -41,7 +41,7 @@ export default function Speechtext(){
     return(
         <>
         <button onClick={getText}>Translate</button>
-        {state.dataLoading?<div>Loading....</div>:<div id='ai-response'><ReactMarkdown children={state.aiResponse}/></div>}
+        {state.dataLoading?<div>Loading....</div>:<div id='ai-response'><ReactMarkdown>{state.aiResponse}</ReactMarkdown></div>}
         
         </>
     );

@@ -10,7 +10,7 @@ const MarkdownTest = ()=>{
         /*{JSON.stringify(newRes)}*/
     return(
   
-  <ReactMarkdown children={newRes}/> 
+  <ReactMarkdown>{newRes}</ReactMarkdown>
 );
 }
 
