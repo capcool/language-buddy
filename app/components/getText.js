@@ -1,11 +1,13 @@
 "use client"
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import aiUtil from "./ai/googleGemini";
 import { Context } from "../stateManagement/Store";
 import ReactMarkdown from 'react-markdown';
+import { SayButton } from 'react-say';
 
 export default function Speechtext(){
     const [state , setState]= useContext(Context);
+    const [stopRead, setStopReat]=useState(true);
    console.log(state);
 
     async function getText(){
@@ -15,7 +17,7 @@ export default function Speechtext(){
             }
             
         });
-        let htmlText=document.getElementById("text-speech").innerHTML;
+        let htmlText=document.getElementById("ai-input").value;
         await aiUtil.aiTranslate(htmlText).then(async (res)=>{
            console.log(res)
            //JSON.stringify(state.aiResponse.parts)
@@ -36,11 +38,38 @@ export default function Speechtext(){
                 
             });
         });
+        setStopReat(true);
+    }
+    function stopTextRead(){
+        setStopReat(false)
+    // let player = new talkify.TtsPlayer(); //or new talkify.Html5Player()
+    // player.playText(state.aiResponse);
     }
     return(
         <>
         <div className="pt-4">
-        <button className='bg-black text-white font-semibold py-2 px-4 rounded-full' onClick={getText}>Ask AI</button>
+        <div className='flex space-x-4 '>
+            <div>
+                <button className='bg-black text-white font-semibold py-2 px-4 rounded-full' onClick={getText}>Ask AI</button>
+            </div>
+            <div>{stopRead?
+                (
+                <div className='bg-green-700 text-white font-semibold py-2 px-4 rounded-full'>
+                <SayButton  speak={state.aiResponse}>
+                    Read
+                </SayButton>
+                </div>
+                ):(<></>)
+                    }
+            </div>
+            <div>
+            <div>
+                <button className='bg-red-300 text-white font-semibold py-2 px-4 rounded-full' 
+                onClick={stopTextRead}>Stop</button>
+            </div>
+
+            </div>
+        </div>
         {state.dataLoading?<div>Loading....</div>:<div id='ai-response'><ReactMarkdown>{state.aiResponse}</ReactMarkdown></div>}
         </div>
         </>

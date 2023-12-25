@@ -5,12 +5,19 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import { Context } from '../stateManagement/Store';
 const Dictaphone = () => {
   const [state, setState] = useContext(Context);
+  const [inputValue, setInputValue]=useState('');
+  
   const {
     transcript,
     listening,
     resetTranscript,
     browserSupportsSpeechRecognition
   } = useSpeechRecognition();
+  const onChange = (event) => {
+   // transcript= event.target.value
+    setInputValue(event.target.value);
+    resetTranscript();
+  };
 function reSet(){
     resetTranscript();
     //document.getElementById("ai-response").innerHTML=""
@@ -51,6 +58,11 @@ function stopMic(){
       </div>
       
       <div id='text-speech'>{transcript}</div>
+      <div className="mb-6">
+    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Default input</label>
+    <input type="text" id="ai-input" value={transcript?transcript:inputValue} onChange={onChange}
+    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+    </div>
       <div id='text-translate'></div>
     </div>
   );
