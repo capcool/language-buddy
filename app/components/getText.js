@@ -3,7 +3,7 @@ import React, {useContext, useState} from "react";
 import aiUtil from "./ai/googleGemini";
 import { Context } from "../stateManagement/Store";
 import ReactMarkdown from 'react-markdown';
-import { SayButton } from 'react-say';
+
 
 export default function Speechtext(){
     const [state , setState]= useContext(Context);
@@ -45,6 +45,32 @@ export default function Speechtext(){
     // let player = new talkify.TtsPlayer(); //or new talkify.Html5Player()
     // player.playText(state.aiResponse);
     }
+     function defaultRead(){
+        let voices;
+        
+        
+            let utterance = new SpeechSynthesisUtterance("");
+            speechSynthesis.cancel();
+            speechSynthesis.speak(utterance);
+            voices=speechSynthesis.getVoices();
+    
+            speechSynthesis.cancel();
+        
+
+        let speakData = new SpeechSynthesisUtterance();
+        speakData.volume=1;
+        speakData.rate=1;
+        speakData.pitch=1;
+        speakData.voice=voices[0];
+        //speakData.lang='en-GB';
+        speakData.text=state.aiResponse;
+        console.log(voices);
+        speechSynthesis.speak(speakData);
+
+        console.log("end")
+        const amISpeaking = speechSynthesis.speaking
+        console.log(amISpeaking);
+    }
     return(
         <>
         <div className="pt-4">
@@ -55,9 +81,7 @@ export default function Speechtext(){
             <div>{stopRead?
                 (
                 <div className='bg-green-700 text-white font-semibold py-2 px-4 rounded-full'>
-                <SayButton  speak={state.aiResponse}>
-                    Read
-                </SayButton>
+                <button onClick={defaultRead}>Read</button>
                 </div>
                 ):(<></>)
                     }
