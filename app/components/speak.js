@@ -1,5 +1,6 @@
 "use client";
 import "regenerator-runtime/runtime";
+import LangOptions from './langOptions';
 import React, { useContext, useState } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -13,7 +14,7 @@ const Dictaphone = () => {
     transcript,
     listening,
     resetTranscript,
-    browserSupportsSpeechRecognition,
+    browserSupportsSpeechRecognition
   } = useSpeechRecognition();
   const onChange = (event) => {
     // transcript= event.target.value
@@ -35,7 +36,7 @@ const Dictaphone = () => {
   }
   function startMic() {
     eraseAiResponse();
-    SpeechRecognition.startListening({ language: "en-GB" });
+    SpeechRecognition.startListening({ language: state.defaultInput });
   }
   function stopMic() {
     eraseAiResponse();
@@ -72,17 +73,18 @@ const Dictaphone = () => {
         </div>
       </div>
       <div className="m-2 max-w-6xl">
-        <label
-          for="message"
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+      <LangOptions/>
+        {/* <label
+          //for="message"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
           Your message
-        </label>
+        </label> */}
         <textarea
           id="ai-input"
           rows="4"
-          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Write your thoughts here..."
+          className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Speak or Write your inputs here..."
           value={transcript ? transcript : inputValue}
           onChange={onChange}
         ></textarea>
