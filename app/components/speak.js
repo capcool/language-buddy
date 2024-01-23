@@ -73,7 +73,7 @@ const Dictaphone = () => {
         </div>
       </div>
       <div className="m-2 max-w-6xl">
-      <LangOptions/>
+      {/* <LangOptions/> */}
         {/* <label
           //for="message"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
