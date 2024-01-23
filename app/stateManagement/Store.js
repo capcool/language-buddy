@@ -3,8 +3,8 @@ import React, {useState} from "react";
 const initialState={
     dataLoading: false,
     aiResponse:"",
-    defaultInput:"en-GB",
-    defaultOutput:"ja-JP"
+    defaultInput:"ja-JP",
+    defaultOutput:"en-GB"
 }
  const Context= React.createContext();
 
