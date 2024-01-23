@@ -2,7 +2,9 @@
 import React, {useState} from "react";
 const initialState={
     dataLoading: false,
-    aiResponse:""
+    aiResponse:"",
+    defaultInput:"en-GB",
+    defaultOutput:"ja-JP"
 }
  const Context= React.createContext();
 
