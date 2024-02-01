@@ -3,8 +3,10 @@ import React, {useState} from "react";
 const initialState={
     dataLoading: false,
     aiResponse:"",
-    defaultInput:"ja-JP",
-    defaultOutput:"en-GB"
+    defaultInput:"en-GB",
+    defaultOutput:"ja-JP",
+    translateInput:"English",
+    translateOutput:"Japanese(Hiragana)"
 }
  const Context= React.createContext();
 
