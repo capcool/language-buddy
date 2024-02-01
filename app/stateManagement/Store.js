@@ -4,7 +4,9 @@ const initialState={
     dataLoading: false,
     aiResponse:"",
     defaultInput:"en-GB",
-    defaultOutput:"ja-JP"
+    defaultOutput:"ja-JP",
+    translateInput:"English",
+    translateOutput:"Japanese(Hiragana)"
 }
  const Context= React.createContext();
 

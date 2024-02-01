@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 
 export default function Speechtext(){
     const [state , setState]= useContext(Context);
-    const [stopRead, setStopReat]=useState(true);
+    const [stopRead, setStopRead]=useState(true);
    //console.log(state);
 
     async function getText(){
@@ -17,8 +17,10 @@ export default function Speechtext(){
             }
             
         });
-        let htmlText=document.getElementById("ai-input").value;
-        await aiUtil.aiTranslate("Translate it to japanese from english - "+htmlText).then(async (res)=>{
+        let htmlText=await document.getElementById("ai-input").value;
+        let defaultInput= state.defaultInput;
+        let defaultOutput = state.defaultOutput;
+        await aiUtil.aiTranslate(`Translate the following text strictly to ${state.translateOutput} from ${state.translateInput} : ${htmlText}`).then(async (res)=>{
            console.log(res)
            //JSON.stringify(state.aiResponse.parts)
        let modifiedRes=res.parts[0].text;
@@ -38,16 +40,16 @@ export default function Speechtext(){
                 
             });
         });
-        setStopReat(true);
+        setStopRead(true);
     }
     function stopTextRead(){
-       setStopReat(true)
+       setStopRead(true)
        window.speechSynthesis.cancel()
     // let player = new talkify.TtsPlayer(); //or new talkify.Html5Player()
     // player.playText(state.aiResponse);
     }
      async function defaultRead(){
-        setStopReat(false);
+        setStopRead(false);
         let voices;
         
         
@@ -90,7 +92,7 @@ export default function Speechtext(){
         //console.log(newArray);
         //console.log(voices);
         speechSynthesis.speak(speakData);
-        setStopReat(true);
+        setStopRead(true);
        // console.log("end")
        // 
        // console.log(amISpeaking);
@@ -100,7 +102,7 @@ export default function Speechtext(){
         <div className="pt-4">
         <div className='flex space-x-4 '>
             <div>
-                <button className='bg-black text-white font-semibold py-2 px-4 rounded-full' onClick={getText}>Ask AI</button>
+                <button className='bg-black text-white font-semibold py-2 px-4 rounded-full' onClick={getText}>Translate</button>
             </div>
             <div>{stopRead?
                 (
