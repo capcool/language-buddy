@@ -5,9 +5,11 @@ import Dictaphone from './components/speak'
 import Speechtext from './components/getText'
 import Store from './stateManagement/Store'
 import MarkdownTest from './components/markdownTest'
+import NavBar from './components/navbar'
 export default function Home() {
   return (
    <Store>
+    <NavBar/>
     <div className='pl-4' >
    <h4 className="text-3xl font-extrabold dark:text-white pt-4">
     Language Buddy<small className="ms-2 font-semibold text-gray-500 dark:text-gray-400">with the power of Gen AI</small></h4>
