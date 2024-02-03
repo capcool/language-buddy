@@ -6,7 +6,7 @@ const initialState={
     defaultInput:"en-GB",
     defaultOutput:"ja-JP",
     translateInput:"English",
-    translateOutput:"Japanese(Hiragana)"
+    translateOutput:"Japanese"
 }
  const Context= React.createContext();
 
