@@ -1,10 +1,10 @@
 "use client";
 import React, { useContext, useState } from "react";
-import aiUtil from "./ai/googleGemini";
+import aiUtil from "./ai/deepLtestTranlate";
 import { Context } from "../stateManagement/Store";
 import ReactMarkdown from "react-markdown";
 
-export default function Speechtext() {
+export default function SpeechtextDeepL() {
   const [state, setState] = useContext(Context);
   const [stopRead, setStopRead] = useState(true);
   //console.log(state);
@@ -19,14 +19,18 @@ export default function Speechtext() {
     let htmlText = await document.getElementById("ai-input").value;
     let defaultInput = state.defaultInput;
     let defaultOutput = state.defaultOutput;
-    await aiUtil
-      .aiTranslate(
-        `Translate the following text strictly to ${state.translateOutput} from ${state.translateInput} : ${htmlText}`
-      )
+    let targetLang="EN";
+    if(defaultOutput=="ja-JP"){
+      targetLang="JA"
+    }
+    if(defaultOutput=="en-GB"){
+      targetLang="EN";
+    }
+    await aiUtil.deepLTextTranslate(htmlText,targetLang)
       .then(async (res) => {
         console.log(res);
         //JSON.stringify(state.aiResponse.parts)
-        let modifiedRes = res.parts[0].text;
+        let modifiedRes = res.translations[0].text;
         //console.log(modifiedRes)
         let newRes = await modifiedRes.replace("/\n", "&nbsp; \n");
         //console.log(newRes);

@@ -55,8 +55,8 @@ export default function NavBar() {
               <div className="flex flex-shrink-0 items-center">
                 <img
                   className="h-8 w-auto"
-                  src='svgviewer-png-output.png'
-                  alt="Your Company"
+                  src='/language-translation-svgrepo-com-1.svg'
+                  alt=""
                 />
               </div>
               <div className="hidden sm:ml-6 sm:block">
@@ -70,7 +70,7 @@ export default function NavBar() {
                     Google Gemini
                   </Link>
                   <Link
-                    href="deepL"
+                    href="/deepL"
                     className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
                     aria-current="page"
                   >
