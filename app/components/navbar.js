@@ -94,7 +94,7 @@ export default function NavBar() {
               Google Gemini
             </Link>
             <Link
-              href="deepL"
+              href="/deepL"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
             >
               DeepL
