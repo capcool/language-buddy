@@ -1,6 +1,7 @@
 "use client";
 import "regenerator-runtime/runtime";
 import LangOptions from "./langOptions";
+import LangDropdown from "./langDropdown";
 import React, { useContext, useState } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -55,7 +56,8 @@ const Dictaphone = () => {
   return (
     <>
       <div className="m-2 max-w-6xl pl-4 ">
-        <LangOptions />
+        {/* <LangOptions /> */}
+        <LangDropdown />
         {/* <div>Microphone: {listening ? "on" : "off"}</div> */}
         <div className="flex space-x-4 pt-4">
           <div

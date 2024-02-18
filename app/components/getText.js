@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import aiUtil from "./ai/googleGemini";
 import { Context } from "../stateManagement/Store";
 import ReactMarkdown from "react-markdown";
+import langDetails from "./langMapping";
 
 export default function Speechtext() {
   const [state, setState] = useContext(Context);
@@ -21,7 +22,7 @@ export default function Speechtext() {
     let defaultOutput = state.defaultOutput;
     await aiUtil
       .aiTranslate(
-        `Translate the following text strictly to ${state.translateOutput} from ${state.translateInput} : ${htmlText}`
+        `Translate the following text strictly to ${langDetails[defaultOutput]} from ${langDetails[defaultInput]} : ${htmlText}`
       )
       .then(async (res) => {
         console.log(res);
