@@ -1,8 +1,8 @@
 const langDetails={
 "en-GB":"English",
 "ja-JP":"Japanese",
-"de-DE":"Garman",
-"fr-FR":"French"
+"de-DE":"German",
+"es-ES":"Spanish"
 }
 
 module.exports = langDetails;
