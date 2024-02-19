@@ -40,7 +40,8 @@ const Dictaphone = () => {
   }
   function startMic() {
     eraseAiResponse();
-    SpeechRecognition.startListening({ language: state.defaultInput });
+    SpeechRecognition.startListening({ language: state.defaultInput,
+      continuous: true });
   }
   function stopMic() {
     eraseAiResponse();
