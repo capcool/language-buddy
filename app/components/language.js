@@ -73,11 +73,8 @@ export default function Language(prop) {
         >
 
           <option value="en-GB">English</option>
-          <option value="ja-JP">Japanese</option>
           <option value="de-DE">German</option>
-          <option value="fr-FR">French</option>
-          <option value="yue-Hant-HK">Chinese, Cantonese</option>
-          <option value="cmn-Hans-CN">Chinese, Mandarin</option>
+          <option value="ja-JP">Japanese</option>
           <option value="es-ES">Spanish</option>
         </select>
       </form>
