@@ -6,7 +6,8 @@ const initialState={
     defaultInput:"en-GB",
     defaultOutput:"ja-JP",
     translateInput:"English",
-    translateOutput:"Japanese"
+    translateOutput:"Japanese",
+    defaultChatLanguage:"en-GB"
 }
  const Context= React.createContext();
 
