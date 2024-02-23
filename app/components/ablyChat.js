@@ -67,11 +67,11 @@ console.log(ablyClient.auth.clientId);
       ).then(async (res) => {
           console.log(res);
           let newMessage = res.parts[0].text;
-          setMessages(prevMessages => [...prevMessages, newMessage]);
+          setMessages(prevMessages => [...prevMessages, `${message.clientId}:${newMessage}`]);
       })
 
       }else{
-        setMessages(prevMessages => [...prevMessages,message.data]);
+        setMessages(prevMessages => [...prevMessages,`${message.clientId}:${message.data}`]);
       }
        // let defaultChatLang = state.defaultChatLanguage;
         ///console.log(langDetails[defaultChatLang]);
@@ -89,17 +89,27 @@ console.log(ablyClient.auth.clientId);
   return (
     <>
     <div>
-      <button onClick={checkAbly}>Update Chat</button>
-      <div>
+      <button className='px-6 py-2 min-w-[120px] text-center text-white bg-violet-600 border border-violet-600 rounded active:text-violet-500 hover:bg-transparent hover:text-violet-600 focus:outline-none focus:ring'
+       onClick={checkAbly}>Update Chat</button>
+      <div className='overflow-x-auto h-full max-h-64 flex-col-reverse'>
         {messages.map((msg, index) => (
           <div key={index}>{msg}</div>
         ))}
       </div>
-      <input
+      <textarea
+            id="ai-input"
+            rows="4"
+            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+             dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 "
+            placeholder="type your message here..."
+            value={messageInput}
+            onChange={(e) => setMessageInput(e.target.value)}
+          ></textarea>
+      {/* <input
         type="text"
         value={messageInput}
         onChange={(e) => setMessageInput(e.target.value)}
-      />
+      /> */}
       <button onClick={sendMessage}>Send</button>
     </div>
     </>
