@@ -11,7 +11,8 @@ export default function ChatLanguage() {
     setState((preState) => {
       return {
         ...preState,
-        defaultChatLanguage: `${elemValue}`
+        defaultChatLanguage: `${elemValue}`,
+        livechat:"invisible"
       };
     });
   }
