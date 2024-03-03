@@ -11,17 +11,19 @@ const ChatComponent = () => {
   const [state, setState] = useContext(Context);
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
-  const [ablyClient, setAblyClient] = useState(null);
-  const [ablyUserID, setAblyUserID] = useState(null);
+  const [ablyCustomClient, setAblyCustomClient] = useState(null);
+  //const [ablychatname, setAblychantname] = useState(null);
 
   useEffect(() => {
-    let rnum = (Math.random() + 1).toString(36).substring(7);
-    const client = new Ably.Realtime({
-      authUrl: "https://language-translate-api.vercel.app/getAblyAccesstoken",
-      authParams: { clientId: `${rnum}@gmail.com` },
-    });
-    setAblyClient(client);
-    setAblyUserID(client.auth.clientId);
+    // let rnum = (Math.random() + 1).toString(36).substring(7);
+    // const client = new Ably.Realtime({
+    //   authUrl: "https://language-translate-api.vercel.app/getAblyAccesstoken",
+    //   authParams: { clientId: `${rnum}@gmail.com` },
+    // });
+    // setAblyClient(client);
+    // setAblyUserID(client.auth.clientId);
+
+    //****************************************************** */
     //     // //console.log(process.env.NEXT_PUBLIC_ABLY_KEY);
     //     // //const client = new Ably.Realtime(process.env.ABLY_KEY);
     //     // const ably= new Ably.Rest(
@@ -39,32 +41,66 @@ const ChatComponent = () => {
     //   //   const client1 = new Ably.Realtime(
     //   //     "L7ygEQ.EWUyWLbMXuWC99t5zvNsQ2E7vrZvJgI2Hst-D48KoK6cmiGRbFdqKrt7enViclAbq-30NHJPtVI6foJY3cZ-4HB6gV9KUPNHeO5OC5x_GaZXR3ajrRZCjXkW94_tBkap6TT8VWYJlGXRrzjEhUfzD1w"
     //   // )
-    setState((preState)=>{
+    setState((preState) => {
       return {
         ...preState,
-        livechat:"invisible"
-      }
+        livechat: "invisible",
+      };
     });
   }, []);
-
+  async function createChatClient() {
+    let clientName = "dummy";
+    let rnum = (Math.random() + 1).toString(36).substring(7);
+    const client =new Ably.Realtime({
+        authUrl: "https://language-translate-api.vercel.app/getAblyAccesstoken",
+        authParams: { clientId: `${clientName}` },
+      });
+      
+      //setAblyUserID(client.auth.clientId);
+    
+     //setAblyClient(client);
+     return client;
+    
+  }
   async function checkAbly() {
-    setState((preState)=>{
+    setState((preState) => {
       return {
         ...preState,
-        livechat:"visible"
-      }
+        livechat: "visible",
+      };
     });
 
+    try{
+      ablyCustomClient.close();
+    }catch(err){
+      console.log("error while closing connection")
+    }
+    let rnum = (Math.random() + 1).toString(36).substring(7);
+    let clientName = await document.getElementById("chat-name").value
+    if(clientName=="" || clientName ==null){
+      console.log("Assigning randon client name")
+      clientName=(Math.random() + 1).toString(36).substring(7);
+    }
+    const ablyClient = new Ably.Realtime({
+      authUrl: "https://language-translate-api.vercel.app/getAblyAccesstoken",
+      authParams: { clientId: `${clientName}` },
+    });
+
+    setAblyCustomClient(ablyClient);
     try {
-      await ablyClient.channels.get("Language-Buddy").unsubscribe();
-    } catch (er) {}
-    console.log(ablyClient.auth.clientId);
+   //  const ablyClient = await createChatClient()
+     //console.log(ablyClient);
+     ablyClient.channels.get("Language-Buddy").unsubscribe();
+    } catch (er) {
+      console.log(er)
+    }
+    //console.log(ablyClient.auth.clientId);
     //console.log(ablyUserID);
     const channel = ablyClient.channels.get("Language-Buddy");
     channel.unsubscribe();
     channel.subscribe("message", (message) => {
-      console.log(message.clientId);
-      console.log(ablyClient.auth.clientId);
+     // console.log(message.clientId);\
+     // console.log(ablyClient.auth.clientId);
       let check = message.clientId !== ablyClient.auth.clientId;
       console.log(check);
       if (message.clientId !== ablyClient.auth.clientId) {
@@ -95,7 +131,7 @@ const ChatComponent = () => {
     });
   }
   const sendMessage = () => {
-    const channel = ablyClient.channels.get("Language-Buddy");
+    const channel = ablyCustomClient.channels.get("Language-Buddy");
     channel.publish("message", messageInput);
     setMessageInput("");
   };
@@ -103,12 +139,14 @@ const ChatComponent = () => {
   return (
     <>
       <div>
-        <button
-          className="px-6 py-2 min-w-[120px] text-center text-white bg-violet-600 border border-violet-600 rounded active:text-violet-500 hover:bg-transparent hover:text-violet-600 focus:outline-none focus:ring"
-          onClick={checkAbly}
-        >
-          Start
-        </button>
+        <div className={state.livechat == "visible" ? "invisible" : "visible"}>
+          <button
+            className="px-6 py-2 min-w-[120px] text-center text-white bg-violet-600 border border-violet-600 rounded active:text-violet-500 hover:bg-transparent hover:text-violet-600 focus:outline-none focus:ring"
+            onClick={checkAbly}
+          >
+            Start
+          </button>
+        </div>
         <div className={state.livechat}>
           <div className="overflow-x-auto h-full max-h-64 flex-col-reverse">
             {messages.map((msg, index) => (
@@ -129,7 +167,13 @@ const ChatComponent = () => {
         value={messageInput}
         onChange={(e) => setMessageInput(e.target.value)}
       /> */}
-          <button onClick={sendMessage}>Send</button>
+          {/* <button onClick={sendMessage}>Send</button> */}
+          <button className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
+          onClick={sendMessage}>
+            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+            Send
+            </span>
+          </button>
         </div>
       </div>
     </>
