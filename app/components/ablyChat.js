@@ -51,16 +51,15 @@ const ChatComponent = () => {
   async function createChatClient() {
     let clientName = "dummy";
     let rnum = (Math.random() + 1).toString(36).substring(7);
-    const client =new Ably.Realtime({
-        authUrl: "https://language-translate-api.vercel.app/getAblyAccesstoken",
-        authParams: { clientId: `${clientName}` },
-      });
-      
-      //setAblyUserID(client.auth.clientId);
-    
-     //setAblyClient(client);
-     return client;
-    
+    const client = new Ably.Realtime({
+      authUrl: "https://language-translate-api.vercel.app/getAblyAccesstoken",
+      authParams: { clientId: `${clientName}` },
+    });
+
+    //setAblyUserID(client.auth.clientId);
+
+    //setAblyClient(client);
+    return client;
   }
   async function checkAbly() {
     setState((preState) => {
@@ -70,40 +69,53 @@ const ChatComponent = () => {
       };
     });
 
-    try{
+    try {
       ablyCustomClient.close();
-    }catch(err){
-      console.log("error while closing connection")
+    } catch (err) {
+      console.log("error while closing previous connection");
     }
-    let rnum = (Math.random() + 1).toString(36).substring(7);
-    let clientName = await document.getElementById("chat-name").value
-    if(clientName=="" || clientName ==null){
-      console.log("Assigning randon client name")
-      clientName=(Math.random() + 1).toString(36).substring(7);
+    //let rnum = (Math.random() + 1).toString(36).substring(7);
+    let defaultChatLang = state.defaultChatLanguage;
+    let chatLang = langDetails[defaultChatLang];
+    let clientName = await document.getElementById("chat-name").value;
+    if (clientName == "" || clientName == null) {
+      console.log("Assigning randon client name");
+      clientName = (Math.random() + 1).toString(36).substring(7);
     }
     const ablyClient = new Ably.Realtime({
       authUrl: "https://language-translate-api.vercel.app/getAblyAccesstoken",
-      authParams: { clientId: `${clientName}` },
+      authParams: { clientId: `${clientName}::::${chatLang}` },
     });
 
     setAblyCustomClient(ablyClient);
     try {
-   //  const ablyClient = await createChatClient()
-     //console.log(ablyClient);
-     ablyClient.channels.get("Language-Buddy").unsubscribe();
+      //  const ablyClient = await createChatClient()
+      //console.log(ablyClient);
+      ablyClient.channels.get("Language-Buddy").unsubscribe();
     } catch (er) {
-      console.log(er)
+      console.log(er);
     }
     //console.log(ablyClient.auth.clientId);
     //console.log(ablyUserID);
     const channel = ablyClient.channels.get("Language-Buddy");
     channel.unsubscribe();
     channel.subscribe("message", (message) => {
-     // console.log(message.clientId);\
-     // console.log(ablyClient.auth.clientId);
+      // console.log(message.clientId);\
+      // console.log(ablyClient.auth.clientId);
       let check = message.clientId !== ablyClient.auth.clientId;
       console.log(check);
-      if (message.clientId !== ablyClient.auth.clientId) {
+      let messageSplit = message.clientId.split("::::");
+      let ablyClientSplit = ablyClient.auth.clientId.split("::::");
+      let messageSubClientId = messageSplit[0];
+      let messageLang = messageSplit[1];
+      let ablySubClientId = ablyClientSplit[0];
+      let clientMessageLang = ablyClientSplit[1];
+
+      //  if (message.clientId !== ablyClient.auth.clientId) {
+      if (
+        messageSubClientId !== ablySubClientId &&
+        messageLang !== clientMessageLang
+      ) {
         let defaultChatLang = state.defaultChatLanguage;
         aiUtil
           .aiTranslate(
@@ -117,13 +129,13 @@ const ChatComponent = () => {
             let newMessage = res.parts[0].text;
             setMessages((prevMessages) => [
               ...prevMessages,
-              `${message.clientId}:${newMessage}`,
+              `${messageSubClientId}:${newMessage}`,
             ]);
           });
       } else {
         setMessages((prevMessages) => [
           ...prevMessages,
-          `${message.clientId}:${message.data}`,
+          `${messageSubClientId}:${message.data}`,
         ]);
       }
       // let defaultChatLang = state.defaultChatLanguage;
@@ -141,7 +153,7 @@ const ChatComponent = () => {
       <div>
         <div className={state.livechat == "visible" ? "invisible" : "visible"}>
           <button
-            className="px-6 py-2 min-w-[120px] text-center text-white bg-violet-600 border border-violet-600 rounded active:text-violet-500 hover:bg-transparent hover:text-violet-600 focus:outline-none focus:ring"
+            className="px-6 py-2 min-w-[120px] text-center text-white bg-violet-400 border border-violet-600 rounded active:text-violet-500 hover:bg-transparent hover:text-violet-600 focus:outline-none focus:ring"
             onClick={checkAbly}
           >
             Start
@@ -168,10 +180,12 @@ const ChatComponent = () => {
         onChange={(e) => setMessageInput(e.target.value)}
       /> */}
           {/* <button onClick={sendMessage}>Send</button> */}
-          <button className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
-          onClick={sendMessage}>
+          <button
+            className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
+            onClick={sendMessage}
+          >
             <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-            Send
+              Send
             </span>
           </button>
         </div>

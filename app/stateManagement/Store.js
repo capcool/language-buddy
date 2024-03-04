@@ -7,7 +7,8 @@ const initialState={
     defaultOutput:"ja-JP",
     translateInput:"English",
     translateOutput:"Japanese",
-    defaultChatLanguage:"en-GB"
+    defaultChatLanguage:"en-GB",
+    livechat: "invisible"
 }
  const Context= React.createContext();
 
